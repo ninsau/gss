@@ -1,0 +1,7 @@
+type VouchersModel @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  name: String
+  discount: Int
+  description: String
+}
+ 

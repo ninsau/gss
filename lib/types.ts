@@ -12,10 +12,19 @@ export type ImageType = {
   width?: number;
 };
 
-export type InitialValuesType = {
-  startDate?: string;
-  endDate?: string;
-  name?: string;
-  attendees?: string[];
-  description?: string;
+export type VoucherType = {
+  id?: string;
+  name: string;
+  discount: number;
+  description: string;
 };
+
+export type ModalStateType = {
+  open: boolean;
+  setOpen: (val: boolean) => void;
+};
+
+export interface VoucherFormPropsType {
+  isEditable: boolean;
+  voucher: VoucherType;
+}
