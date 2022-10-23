@@ -4,9 +4,9 @@ import { DataStore } from "@aws-amplify/datastore";
 import { VouchersModel } from "../src/models";
 import { useData } from "../lib/hooks";
 import toast from "react-hot-toast";
-import LoadingStateComponent from "./LoadingState";
 import React from "react";
 import { VoucherType } from "../lib/types";
+import EmptyStateComponent from "./EmptyState";
 
 const VouchersTableComponent = () => {
   const open = modalStateStore((state) => state.open);
@@ -142,7 +142,7 @@ const VouchersTableComponent = () => {
                     </tbody>
                   </table>
                 ) : (
-                  <LoadingStateComponent />
+                  <EmptyStateComponent />
                 )}
               </div>
             </div>

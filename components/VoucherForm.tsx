@@ -1,4 +1,4 @@
-import { CheckIcon } from "@heroicons/react/24/outline";
+import { CheckIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Field, Form, Formik } from "formik";
 import { VoucherFormPropsType } from "../lib/types";
 import { Dialog, Transition } from "@headlessui/react";
@@ -17,18 +17,17 @@ const VoucherForm = ({ isEditable, voucher }: VoucherFormPropsType) => {
   const ValidationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required")
-      .min(3, "Name is too short")
-      .max(50, "Name is too long"),
+      .min(3, "Name is too short. Minimum 3 characters")
+      .max(50, "Name is too long. Maximum 50 characters"),
     discount: Yup.number()
       .required("Please type a number")
       .min(1, "Discount must be greater than 0")
       .max(100, "Discount must be less than 100"),
     description: Yup.string()
       .required("Please type a description")
-      .min(3, "Description is too short")
-      .max(50, "Description is too long"),
+      .min(3, "Description is too short. Minimum 3 characters")
+      .max(50, "Description is too long. Maximum 50 characters"),
   });
-
 
   return (
     <>
@@ -98,18 +97,35 @@ const VoucherForm = ({ isEditable, voucher }: VoucherFormPropsType) => {
                     {({ errors, touched }) => (
                       <Form>
                         <div>
-                          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                            <CheckIcon
-                              className="h-6 w-6 text-green-600"
-                              aria-hidden="true"
-                            />
+                          <div
+                            className={`mx-auto flex h-12 w-12 items-center justify-center rounded-full ${
+                              (errors.name && touched.name) ||
+                              (errors.discount && touched.discount) ||
+                              (errors.description && touched.description)
+                                ? "bg-red-100"
+                                : "bg-green-100"
+                            } `}
+                          >
+                            {(errors.name && touched.name) ||
+                            (errors.discount && touched.discount) ||
+                            (errors.description && touched.description) ? (
+                              <XMarkIcon
+                                className="h-6 w-6 text-red-600"
+                                aria-hidden="true"
+                              />
+                            ) : (
+                              <CheckIcon
+                                className="h-6 w-6 text-green-600"
+                                aria-hidden="true"
+                              />
+                            )}
                           </div>
                           <div className="mt-3 text-center sm:mt-5">
                             <Dialog.Title
                               as="h3"
                               className="text-lg font-medium leading-6 text-gray-900"
                             >
-                              Create Voucher
+                              {isEditable ? "Edit" : "Create"} Voucher
                             </Dialog.Title>
                             <div className="mt-2">
                               <p className="text-sm text-gray-500">
@@ -201,7 +217,7 @@ const VoucherForm = ({ isEditable, voucher }: VoucherFormPropsType) => {
                             type="submit"
                             className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
                           >
-                            Create
+                            {isEditable ? "Update" : "Save"}
                           </button>
                           <button
                             type="button"

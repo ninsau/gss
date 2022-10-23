@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { DataStore, Predicates, SortDirection } from "aws-amplify";
 
 export const useData = (model: any) => {
   const [data, setData] = useState<typeof model[]>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchPosts();
     async function fetchPosts() {
       const getData: typeof model[] = await DataStore.query(model);
